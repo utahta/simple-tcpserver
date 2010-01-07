@@ -10,6 +10,7 @@
 #include <arpa/inet.h>
 #include <netdb.h>
 #include <unistd.h>
+#include <errno.h>
 #include <fcntl.h>
  
 #define CONNECT_ADDR "127.0.0.1"
@@ -71,9 +72,23 @@ int main(void)
             break;
  
         // send
-        if( send( sock, str, strlen( str ) + 1, 0 ) < 0 ){
-            perror( "send()" );
-            break;
+        char *p = str;
+        int len = strlen( str );
+        int res = 0;
+        while( len > 0 ){
+            do{
+                res = send( sock, str, len, 0 );
+                if( errno != EINTR ){
+                    break;
+                }
+            }while( 1 );
+
+            if( errno < 0 ){
+                perror( "send()" );
+                break;
+            }
+            p += res;
+            len -= res;
         }
     }
  

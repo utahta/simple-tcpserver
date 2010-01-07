@@ -20,7 +20,14 @@ static void client_proc( int sd )
     char buff[1024];
     memset( buff, 0, sizeof( buff ) );
 
-    int res = recv( sd, buff, sizeof( buff ), MSG_DONTWAIT );
+    int res = 0;
+    do{
+        res = recv( sd, buff, sizeof( buff ), MSG_DONTWAIT );
+        if( errno != EINTR ){
+            break;
+        }
+    }while(true);
+
     if( res < 0 ){
         if( ( errno == EAGAIN ) ||
             ( errno == EWOULDBLOCK ) ){
