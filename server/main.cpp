@@ -22,8 +22,8 @@ static void client_proc( int sd )
 
     int res = recv( sd, buff, sizeof( buff ), MSG_DONTWAIT );
     if( res < 0 ){
-		if( ( errno == EAGAIN ) ||
-			( errno == EWOULDBLOCK ) ){
+        if( ( errno == EAGAIN ) ||
+            ( errno == EWOULDBLOCK ) ){
             printf( "Not ready yet.\n" );
         }
         else{
