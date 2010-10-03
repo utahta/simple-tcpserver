@@ -2,16 +2,14 @@
 section test
 ====
 
-    test
+test
 
 Section
-
-    test
+ test
 
 SectionTwo
-
-    test
+ test
 
 One
-    two
+ two
 
